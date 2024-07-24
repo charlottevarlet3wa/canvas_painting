@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Learning Game</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+        .container {
+            display: flex;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Canvas Learning Game</h1>
+    <div class="container">
+        <div>
+            <h3>Image to Imitate</h3>
+            <img id="imageToImitate" src="1.png" alt="Example Image" width="300">
+        </div>
+        <div>
+            <h3>Your Canvas</h3>
+            <canvas id="myCanvas" width="300" height="300"></canvas>
+        </div>
+    </div>
+    <div>
+        <h3>Complete the Code</h3>
+        <div class="input-group">
+            <label>ctx.strokeRect(</label>
+            <input type="text" id="input1" size="5">
+            <label>,</label>
+            <input type="text" id="input2" size="5">
+            <label>,</label>
+            <input type="text" id="input3" size="5">
+            <label>,</label>
+            <input type="text" id="input4" size="5">
+            <label>);</label>
+        </div>
+        <button onclick="draw()">Draw on Canvas</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
