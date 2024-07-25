@@ -1,19 +1,107 @@
-canvas {
-    border: 1px solid black;
+:root {
+    --orange:  rgb(255, 123, 0);
+    --light: rgb(255, 250, 245);
+    --lightorange :  rgb(255, 147, 45);
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.container {
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: small;
+}
+
+#game {
+    padding: 10px;
+    background-color: #f2f2f2;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.x-container {
+    display: flex;
+    gap: 5px;
+}
+
+.y-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: var(--orange);
+    color:var(--light);
+    border: none;
+    font-weight: 600;
+    border-radius: 5px;
+    font-size: medium;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: var(--lightorange);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+input {
+    /* border: 2px solid var(--orange); */
+    border: 1px solid var(--orange);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+h3 {
+    color: var(--orange);;
+}
+
+#editForm label {
+    font-weight: bold;
+}
+
+
+.y-container.input {
+    /* background-color: white; */
+    width: 300px;
+    padding: 0 10px 10px 10px;
+}
+
+.history-container {
+    /* background-color: bisque; */
+}
+
+img, canvas {
+    width: 300px;
+    height: 404px;
+    /* border: 2px solid black; */
+}
+canvas {
+    /* border: 2px solid black; */
+    background-color: white;
 }
 .input-group {
     margin: 10px 0;
 }
-img {
-    width: 300px;
-    height: 400px;
+.input {
+    background-color: white;
+    padding: 0 10px 10px 10px;
 }
+
+
+
 #historyList {
     list-style-type: none;
     padding: 0;
+    background-color: var(--light);
 }
 #historyList li {
     margin: 5px 0;
@@ -34,4 +122,11 @@ img {
 }
 #editForm {
     margin-top: 20px;
+}
+
+input[type=number] {
+    width: 40px;
+}
+input[type=text] {
+    width: 60px;
 }
