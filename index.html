@@ -4,44 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas Learning Game</title>
-    <style>
-        canvas {
-            border: 1px solid black;
-        }
-        .container {
-            display: flex;
-        }
-        .input-group {
-            margin: 10px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Canvas Learning Game</h1>
     <div class="container">
         <div>
             <h3>Image to Imitate</h3>
-            <img id="imageToImitate" src="1.png" alt="Example Image" width="300">
+            <img id="imageToImitate" src="1.png" alt="Example Image" width="300" height="400">
         </div>
         <div>
             <h3>Your Canvas</h3>
-            <canvas id="myCanvas" width="300" height="300"></canvas>
+            <canvas id="myCanvas" width="300" height="400"></canvas>
         </div>
     </div>
     <div>
         <h3>Complete the Code</h3>
         <div class="input-group">
-            <label>ctx.strokeRect(</label>
-            <input type="text" id="input1" size="5">
-            <label>,</label>
-            <input type="text" id="input2" size="5">
-            <label>,</label>
-            <input type="text" id="input3" size="5">
-            <label>,</label>
-            <input type="text" id="input4" size="5">
-            <label>);</label>
+            <label>Method:</label>
+            <select id="methodSelect">
+                <option value="strokeRect">strokeRect</option>
+                <option value="fillRect">fillRect</option>
+                <!-- <option value="strokeText">strokeText</option> -->
+                <!-- <option value="fillText">fillText</option> -->
+                <!-- <option value="addText">addText</option> -->
+            </select>
+        </div>
+        <div class="input-group">
+            <label>ctx.fillStyle = </label>
+            <input type="text" id="fillStyle" size="10" value="#000000">;
+            <input type="color" id="fillStyleColor" size="10" value="#000000">
+        </div>
+        <div class="input-group">
+            <label>ctx.strokeStyle = </label>
+            <input type="text" id="strokeStyle" size="10" value="#000000">;
+            <input type="color" id="strokeStyleColor" size="10" value="#000000">
+        </div>
+        <!-- <div class="input-group">
+            <label>Font: </label>
+            <input type="text" id="font" size="20" value="bold 20px Arial">
+        </div> -->
+        <div id="params">
+            <!-- <div class="input-group">
+                <label>Text: </label>
+                <input type="text" id="paramText" size="20" value="Hello World">
+            </div> -->
+            <div class="input-group">
+                <label>X: </label>
+                <input type="number" id="paramX" size=5 value=0>
+            </div>
+            <div class="input-group">
+                <label>Y: </label>
+                <input type="number" id="paramY" size=5 value=0>
+            </div>
+            <div class="input-group">
+                <label>Width: </label>
+                <input type="number" id="paramWidth" size=5 value=100>
+            </div>
+            <div class="input-group">
+                <label>Height: </label>
+                <input type="number" id="paramHeight" size=5 value=50>
+            </div>`
         </div>
         <button onclick="draw()">Draw on Canvas</button>
+        
+    </div>
+    <div>
+        <h3>History</h3>
+        <ul id="historyList"></ul>
+    </div>
+    <div id="editForm" style="display: none;">
+        <h3>Edit Selected Element</h3>
+        <div class="input-group">
+            <label>X: </label>
+            <input type="text" id="editX" size="5">
+        </div>
+        <div class="input-group">
+            <label>Y: </label>
+            <input type="text" id="editY" size="5">
+        </div>
+        <div class="input-group" id="editAdditionalParams">
+            <!-- Additional dynamic input fields for editing -->
+        </div>
+        <button onclick="updateElement()">Update Element</button>
     </div>
 
     <script src="script.js"></script>
