@@ -60,6 +60,14 @@ input {
     border-radius: 5px;
 }
 
+.input-group .y-container {
+    width: 100%;
+}
+
+.input-group .y-container input {
+    width: 80%;
+}
+
 h3 {
     color: var(--orange);;
 }
@@ -129,4 +137,12 @@ input[type=number] {
 }
 input[type=text] {
     width: 60px;
+}
+
+#arc-input .y-container {
+    display: block;
+}
+
+#arc-input input {
+    width: 70px;
 }

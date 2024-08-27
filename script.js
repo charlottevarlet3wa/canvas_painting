@@ -1,37 +1,106 @@
 let history = [];
 let selectedElementIndex = null;
 
+let images = ['images/t_1.png', 'images/t_2.jpg', 'images/t_3.jpg', 'images/t_4.jpg', 'images/t_5.jpg'];  // Ajoutez ici vos autres images
+let currentImageIndex = 0;
+
+
 function draw() {
     const canvas = document.getElementById('myCanvas');
     const ctx = canvas.getContext('2d');
 
     const method = document.getElementById('methodSelect').value;
-    const x = parseInt(document.getElementById('paramX').value);
-    const y = parseInt(document.getElementById('paramY').value);
-    const fillStyle = document.getElementById('fillStyle').value;
-    const strokeStyle = document.getElementById('strokeStyle').value;
-    // const font = document.getElementById('font').value;
-    const width = document.getElementById('paramWidth').value;
-    const height = document.getElementById('paramHeight').value;
+    const fillStyle = document.getElementById('fillStyleText').value;
+    const strokeStyle = document.getElementById('strokeStyleText').value;
 
     ctx.fillStyle = fillStyle || ctx.fillStyle;
     ctx.strokeStyle = strokeStyle || ctx.strokeStyle;
-    // ctx.font = font || ctx.font;
 
-    // let action = { type: method, x, y, fillStyle, strokeStyle, font };
-    let action = { type: method, x, y, width, height, fillStyle, strokeStyle };
+    let action = { type: method, fillStyle, strokeStyle };
 
+    if (method === 'fillRect' || method === 'strokeRect') {
+        const x = parseInt(document.getElementById('paramX').value);
+        const y = parseInt(document.getElementById('paramY').value);
+        const width = parseInt(document.getElementById('paramWidth').value);
+        const height = parseInt(document.getElementById('paramHeight').value);
+
+        action.x = x;
+        action.y = y;
+        action.width = width;
+        action.height = height;
+
+        if (method === 'fillRect') {
+            ctx.fillRect(x, y, width, height);
+        } else {
+            ctx.strokeRect(x, y, width, height);
+        }
+    } else if (method === 'fillText' || method === 'strokeText') {
+        const text = document.getElementById('textValue').value;
+        const x = parseInt(document.getElementById('textX').value);
+        const y = parseInt(document.getElementById('textY').value);
+        const font = document.getElementById('fontStyle').value;
+
+        action.text = text;
+        action.x = x;
+        action.y = y;
+        action.font = font;
+
+        ctx.font = font;
+
+        if (method === 'fillText') {
+            ctx.fillText(text, x, y);
+        } else {
+            ctx.strokeText(text, x, y);
+        }
+    } else if (method === 'arcFill' || method === 'arcStroke') {
+        const x = parseInt(document.getElementById('arcX').value);
+        const y = parseInt(document.getElementById('arcY').value);
+        const radius = parseInt(document.getElementById('arcRadius').value);
+        const startAngle = parseFloat(document.getElementById('arcStartAngle').value) * Math.PI;
+        const endAngle = parseFloat(document.getElementById('arcEndAngle').value) * Math.PI;
+
+        action.x = x;
+        action.y = y;
+        action.radius = radius;
+        action.startAngle = startAngle;
+        action.endAngle = endAngle;
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, startAngle, endAngle);
+
+        if (method === 'arcFill') {
+            ctx.fill();
+        } else {
+            ctx.stroke();
+        }
+    } else if (method === 'lineStroke') {
+        const x1 = parseInt(document.getElementById('lineX1').value);
+        const y1 = parseInt(document.getElementById('lineY1').value);
+        const x2 = parseInt(document.getElementById('lineX2').value);
+        const y2 = parseInt(document.getElementById('lineY2').value);
     
+        // history
+        action.x = x1;
+        action.y = y1;
+        action.width = x2;
+        action.height = y2;
+        // data
+        action.x1 = x1;
+        action.y1 = y1;
+        action.x2 = x2;
+        action.y2 = y2;
+    
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+    }
+    
+
     history.push(action);
     updateHistory();
     redrawCanvas();
 }
-
-document.addEventListener('keydown', () => {
-    console.log(document.getElementById('fillStyle'));
-})
-
-
 
 function updateHistory() {
     const historyList = document.getElementById('historyList');
@@ -41,13 +110,13 @@ function updateHistory() {
         li.textContent = `${index + 1}. ${action.type}: ${action.x},${action.y}`;
         if (action.width !== undefined) li.textContent += `,${action.width},${action.height}`;
         if (action.text !== undefined) li.textContent += `,"${action.text}"`;
-        
+
         li.addEventListener('click', () => selectElement(index));
-        
+
         if (index === selectedElementIndex) {
             li.style.border = '1px solid red';
         }
-        
+
         const deleteButton = document.createElement('button');
         deleteButton.textContent = '🗑️';
         deleteButton.style.marginLeft = '10px';
@@ -55,7 +124,7 @@ function updateHistory() {
             event.stopPropagation();
             deleteElement(index);
         });
-        
+
         li.appendChild(deleteButton);
         historyList.appendChild(li);
     });
@@ -76,14 +145,19 @@ function deleteElement(index) {
     hideEditForm();
 }
 
+
+
 function redrawCanvas() {
     const canvas = document.getElementById('myCanvas');
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     history.forEach((action, index) => {
         ctx.fillStyle = action.fillStyle || ctx.fillStyle;
         ctx.strokeStyle = action.strokeStyle || ctx.strokeStyle;
-        ctx.font = action.font || ctx.font;
+        if (action.font) {
+            ctx.font = action.font;
+        }
 
         if (index === selectedElementIndex) {
             ctx.strokeStyle = 'red';
@@ -96,18 +170,33 @@ function redrawCanvas() {
             case 'fillRect':
                 ctx.fillRect(action.x, action.y, action.width, action.height);
                 break;
-            case 'strokeText':
-                ctx.strokeText(action.text, action.x, action.y);
-                break;
             case 'fillText':
                 ctx.fillText(action.text, action.x, action.y);
                 break;
-            case 'addText':
-                ctx.fillText(action.text, action.x, action.y);
+            case 'strokeText':
+                ctx.strokeText(action.text, action.x, action.y);
+                break;
+            case 'arcFill':
+                ctx.beginPath();
+                ctx.arc(action.x, action.y, action.radius, action.startAngle, action.endAngle);
+                ctx.fill();
+                break;
+            case 'arcStroke':
+                ctx.beginPath();
+                ctx.arc(action.x, action.y, action.radius, action.startAngle, action.endAngle);
+                ctx.stroke();
+                break;
+            case 'lineStroke':
+                ctx.beginPath();
+                ctx.moveTo(action.x1, action.y1);
+                ctx.lineTo(action.x2, action.y2);
+                ctx.stroke();
                 break;
         }
     });
 }
+
+
 
 function showEditForm() {
     const form = document.getElementById('editForm');
@@ -115,7 +204,7 @@ function showEditForm() {
     const selectedAction = history[selectedElementIndex];
     document.getElementById('editX').value = selectedAction.x;
     document.getElementById('editY').value = selectedAction.y;
-    
+
     const additionalParams = document.getElementById('editAdditionalParams');
     additionalParams.innerHTML = '';
 
@@ -191,49 +280,48 @@ document.getElementById('strokeStyleText').addEventListener('input', function() 
     document.getElementById('strokeStyleColor').value = this.value;
 });
 
-
 document.getElementById('methodSelect').addEventListener('change', function() {
     const method = this.value;
-    const paramsDiv = document.getElementById('params');
-    // paramsDiv.innerHTML = '';
+    const rectInput = document.getElementById('rect-input');
+    const textInput = document.getElementById('text-input');
+    const arcInput = document.getElementById('arc-input');
+    const lineInput = document.getElementById('line-input');
 
-    // switch (method) {
-    //     case 'strokeRect':
-    //     case 'fillRect':
-    //         paramsDiv.innerHTML += `
-    //             <div class="input-group">
-    //                 <label>X: </label>
-    //                 <input type="text" id="paramX" size="5">
-    //             </div>
-    //             <div class="input-group">
-    //                 <label>Y: </label>
-    //                 <input type="text" id="paramY" size="5">
-    //             </div>
-    //             <div class="input-group">
-    //                 <label>Width: </label>
-    //                 <input type="text" id="paramWidth" size="5">
-    //             </div>
-    //             <div class="input-group">
-    //                 <label>Height: </label>
-    //                 <input type="text" id="paramHeight" size="5">
-    //             </div>`;
-    //         break;
-    //     case 'strokeText':
-    //     case 'fillText':
-    //     case 'addText':
-    //         paramsDiv.innerHTML += `
-    //             <div class="input-group">
-    //                 <label>Text: </label>
-    //                 <input type="text" id="paramText" size="20">
-    //             </div>
-    //             <div class="input-group">
-    //                 <label>X: </label>
-    //                 <input type="text" id="paramX" size="5">
-    //             </div>
-    //             <div class="input-group">
-    //                 <label>Y: </label>
-    //                 <input type="text" id="paramY" size="5">
-    //             </div>`;
-    //         break;
-    // }
+    rectInput.style.display = 'none';
+    textInput.style.display = 'none';
+    arcInput.style.display = 'none';
+    lineInput.style.display = 'none';
+
+    if (method === 'fillRect' || method === 'strokeRect') {
+        rectInput.style.display = 'block';
+        document.querySelector('#rect-input label').textContent = `ctx.${method}(`
+
+    } else if (method === 'fillText' || method === 'strokeText') {
+        textInput.style.display = 'block';
+        document.querySelector('#text-input .method-label').textContent = `ctx.${method}(`
+
+    } else if (method === 'arcFill' || method === 'arcStroke') {
+        arcInput.style.display = 'block';
+        document.querySelector('#arc-input .method').textContent = `ctx.${method === 'arcFill' ? 'fill' : 'stroke'}();`
+
+    } else if (method === 'lineStroke') {
+        lineInput.style.display = 'block';
+    }
+});
+
+
+document.getElementById('prevBtn').addEventListener('click', function() {
+    currentImageIndex--;
+    if (currentImageIndex < 0) {
+        currentImageIndex = images.length - 1;
+    }
+    document.getElementById('imageToImitate').src = images[currentImageIndex];
+});
+
+document.getElementById('nextBtn').addEventListener('click', function() {
+    currentImageIndex++;
+    if (currentImageIndex >= images.length) {
+        currentImageIndex = 0;
+    }
+    document.getElementById('imageToImitate').src = images[currentImageIndex];
 });

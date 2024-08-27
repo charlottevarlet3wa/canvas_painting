@@ -10,11 +10,15 @@
     <div id="game">
         <div class="x-container">
             <div>
-                <img id="imageToImitate" src="1.png" alt="Example Image" width="300" height="400">
+                <img id="imageToImitate" src="images/1.png" alt="Example Image" width="300" height="400">
             </div>
             <div>
                 <canvas id="myCanvas" width="300" height="400"></canvas>
             </div>
+        </div>
+        <div class="x-container">
+            <button id="prevBtn"><</button>
+            <button id="nextBtn">></button>
         </div>
         <div class="x-container">
             <div class="input">
@@ -22,25 +26,65 @@
                     <select id="methodSelect">
                         <option value="fillRect">fillRect</option>
                         <option value="strokeRect">strokeRect</option>
+                        <option value="fillText">fillText</option>
+                        <option value="strokeText">strokeText</option>
+                        <option value="arcFill">arc (fill)</option>
+                        <option value="arcStroke">arc (stroke)</option>
+                        <option value="lineStroke">line</option>
                     </select>
                 </div>
                 <div class="input-group">
                     <label>ctx.fillStyle = </label>
-                    <input type="text" id="fillStyle" value="#000000">;
+                    <input type="text" id="fillStyleText" value="#000000">
                     <input type="color" id="fillStyleColor" value="#000000">
                 </div>
                 <div class="input-group">
                     <label>ctx.strokeStyle = </label>
-                    <input type="text" id="strokeStyle" value="#000000">;
+                    <input type="text" id="strokeStyleText" value="#000000">
                     <input type="color" id="strokeStyleColor" value="#000000">
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="rect-input">
                     <label>ctx.fillRect(</label>
-                    <input type="number" id="paramX" max=300 value=0>, 
-                    <input type="number" id="paramY" max=400 value=0>, 
-                    <input type="number" id="paramWidth" max=300 value=100>, 
-                    <input type="number" id="paramHeight" max=400 value=50>);
+                    <div class="y-container">
+                        <p><input type="number" id="paramX" max=300 value=0>, </p>
+                        <p><input type="number" id="paramY" max=400 value=0>, </p>
+                        <p><input type="number" id="paramWidth" max=300 value=100>,</p> 
+                        <p><input type="number" id="paramHeight" max=400 value=50>);</p>
+                    </div>
                 </div>
+                <div class="input-group" id="text-input" style="display: none;">
+                    <div class="y-container">
+                        <label>Font: </label>
+                        <input type="text" id="fontStyle" value="bold 18px Verdana">
+                        <label class="method-label">ctx.fillText(</label>
+                        <p><input type="text" id="textValue" placeholder="Enter text">,</p>
+                        <p><input type="number" id="textX" max=300 value=0>, </p>
+                        <p><input type="number" id="textY" max=400 value=0>);</p>
+                    </div>
+                </div>
+                <div class="input-group" id="arc-input" style="display: none;">
+                    <label>ctx.arc(</label>
+                    <div class="y-container">
+                        <p>X: <input type="number" id="arcX" max="300" value="150">,</p>
+                        <p>Y: <input type="number" id="arcY" max="400" value="200">,</p>
+                        <p>Radius: <input type="number" id="arcRadius" max="200" value="30">,</p>
+                        <p>Start Angle: <input type="number" id="arcStartAngle" step="0.1" value="0"> * Math.PI,</p>
+                        <p>End Angle: <input type="number" id="arcEndAngle" step="0.1" value="2"> * Math.PI);</p>
+                    </div>
+                    
+                    <p class="method">ctx.stroke()</p>
+                </div>          
+                <div class="input-group" id="line-input" style="display: none;">
+                    <label>ctx.beginPath(); ctx.moveTo(</label>
+                    <div class="y-container">
+                        <p>X1: <input type="number" id="lineX1" max="300" value="0">,</p>
+                        <p>Y1: <input type="number" id="lineY1" max="400" value="0">);</p>
+                        <label>ctx.lineTo(</label>
+                        <p>X2: <input type="number" id="lineX2" max="300" value="100">,</p>
+                        <p>Y2: <input type="number" id="lineY2" max="400" value="100">);</p>
+                        <p class="method">ctx.stroke();</p>
+                    </div>
+                </div>                      
                 <button onclick="draw()">Draw</button>
             </div>
             <div class="x-container">
@@ -70,4 +114,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-    
