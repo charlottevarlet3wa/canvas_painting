@@ -1,7 +1,7 @@
 let history = [];
 let selectedElementIndex = null;
 
-let images = ['images/t_1.png', 'images/t_2.jpg', 'images/t_3.jpg', 'images/t_4.jpg', 'images/t_5.jpg'];  // Ajoutez ici vos autres images
+let images = ['images/t_1.png', 'images/2.jpg', 'images/3.jpg', 'images/4.jpg', 'images/5.jpg'];
 let currentImageIndex = 0;
 
 
@@ -292,9 +292,39 @@ document.getElementById('methodSelect').addEventListener('change', function() {
     arcInput.style.display = 'none';
     lineInput.style.display = 'none';
 
+    switch(method){
+        case 'fillRect':
+            rectInput.style.display = 'block';
+            document.querySelector('#rect-input label').textContent = `ctx.fillRect(`;
+            break;
+        case 'strokeRect':
+            rectInput.style.display = 'block';
+            document.querySelector('#rect-input label').textContent = `ctx.strokeRect(`
+            break;
+        case 'fillText':
+            textInput.style.display = 'block';
+            document.querySelector('#text-input .method-label').textContent = `ctx.${method}(`
+            break;
+        case 'strokeText':
+            textInput.style.display = 'block';
+            document.querySelector('#text-input .method-label').textContent = `ctx.${method}(`
+            break;
+        case 'arcFill':
+            arcInput.style.display = 'block';
+            document.querySelector('#arc-input .method').textContent = `ctx.${method === 'arcFill' ? 'fill' : 'stroke'}();`
+            break;
+        case 'arcStroke':
+            arcInput.style.display = 'block';
+            document.querySelector('#arc-input .method').textContent = `ctx.${method === 'arcFill' ? 'fill' : 'stroke'}();`
+            break;
+        case 'lineStroke':
+            lineInput.style.display = 'block';
+            break;
+    }
+
     if (method === 'fillRect' || method === 'strokeRect') {
         rectInput.style.display = 'block';
-        document.querySelector('#rect-input label').textContent = `ctx.${method}(`
+        document.querySelector('#rect-input label').textContent = `ctx.${method}(`;
 
     } else if (method === 'fillText' || method === 'strokeText') {
         textInput.style.display = 'block';
@@ -324,4 +354,22 @@ document.getElementById('nextBtn').addEventListener('click', function() {
         currentImageIndex = 0;
     }
     document.getElementById('imageToImitate').src = images[currentImageIndex];
+});
+
+
+// RULER
+
+function createRuler(rulerId, maxWidth, step) {
+    const ruler = document.getElementById(rulerId);
+    for (let i = 0; i <= maxWidth; i += step) {
+        const span = document.createElement('span');
+        span.setAttribute('data-value', i);
+        span.style.left = `${(i / maxWidth) * 100}%`;
+        ruler.appendChild(span);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    createRuler('rulerImage', 300, 50);
+    createRuler('rulerCanvas', 300, 50);
 });

@@ -9,14 +9,54 @@
 <body>
     <div id="game">
         <div class="x-container">
-            <div>
-                <img id="imageToImitate" src="images/1.png" alt="Example Image" width="300" height="400">
+            <div class="x-ruler">
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
             </div>
-            <div>
-                <canvas id="myCanvas" width="300" height="400"></canvas>
+            <div class="x-ruler">
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
             </div>
         </div>
         <div class="x-container">
+            <div>
+                <img id="imageToImitate" src="images/t_1.png" alt="Example Image" width="300" height="400">
+            </div>
+            <div>
+                <div class="y-ruler" id="rulerCanvas">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <!-- <span>_</span>
+                    <span>_</span>
+                    <span>_</span>
+                    <span>_</span>
+                    <span>_</span>
+                    <span>_</span>
+                    <span>_</span>
+                    <span>_</span> -->
+                </div>
+                <canvas id="myCanvas" width="300" height="400"></canvas>
+            </div>
+        </div>
+
+        <div>
             <button id="prevBtn"><</button>
             <button id="nextBtn">></button>
         </div>
@@ -33,12 +73,12 @@
                         <option value="lineStroke">line</option>
                     </select>
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="fill-style">
                     <label>ctx.fillStyle = </label>
                     <input type="text" id="fillStyleText" value="#000000">
                     <input type="color" id="fillStyleColor" value="#000000">
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="stroke-style">
                     <label>ctx.strokeStyle = </label>
                     <input type="text" id="strokeStyleText" value="#000000">
                     <input type="color" id="strokeStyleColor" value="#000000">
