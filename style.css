@@ -157,16 +157,19 @@ input[type=text] {
 .x-ruler {
     /* position: relative; */
     padding-top: 30px;
-    width: 302px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
     color: var(--orange);
-    margin-bottom: -8px; 
+    color: black;
+    font-size: 0.7rem;
+    margin-bottom: -10px; 
 }
 
 
 .x-ruler span {
     position: relative;
+    width: 0;
 }
 
 .x-ruler span::before {
@@ -196,6 +199,10 @@ input[type=text] {
     content: '300';
 }
 
+canvas {
+    position: relative;
+    left: 2px;
+}
 
 .y-ruler {
     /* position: relative; */
@@ -205,20 +212,22 @@ input[type=text] {
     flex-direction: column;
     justify-content: space-between;
     color: var(--orange);
-    margin-bottom: -12px; 
-    left: 325px;
-    top: 12px;
+    color: black;
+    left: 336px;
+    top: 42px;
+    font-size: 0.6rem;
 }
 
 
 .y-ruler span {
     position: relative;
+    height: 0;
 }
 
 .y-ruler span::before {
     position: absolute;
     text-align: center;
-    transform: translateX(-50%);
+    transform: translate(-120%, 4px);
 }
 .y-ruler span:nth-of-type(1)::before {
     content: '';
